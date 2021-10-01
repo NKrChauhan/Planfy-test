@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block title %}
+User Info
+{% endblock %}
+{% block content %}
+    <div class="container jumbotron" style="margin-top: 5%;">
+            <a href="{% url 'accounts:user_delete' %}" class="btn btn-danger text-uppercase" style="float: right;"><i class="glyphicon glyphicon-trash"></i> Delete My Account</a>
+            <article class="container">
+                <table style="padding:15px;">
+                    <tr>
+                        <td>
+                            <h2 class="title mb-3" style="padding-right:50px;"><b>Username: </b></h2>
+                        </td>
+                        <td>
+                            <h2>{{user.username}}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="title mb-3" style="padding-right:50px;"><b>Email: </b></h3>
+                        </td>
+                        <td>
+                            <h4>{{ user.email }}</h4>
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <div>
+                    <a href="{% url 'accounts:user_update' %}" class="btn glyphicon glyphicon-edit">Edit.Basic.Info</a>
+                    <a href="{% url 'accounts:change_password' %}" style="float: right;" class="btn glyphicon glyphicon-lock">Change.Password</a>
+                </div>
+            </article>
+            <br>
+            <hr>
+    </div>
+
+
+{% endblock %}

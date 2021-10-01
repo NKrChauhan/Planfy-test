@@ -1,0 +1,41 @@
+<nav class="navbar-expand-sm navbar sticky-top navbar navbar-dark bg-dark navbar-fixed-top navbar-inner-sm fancyfonts" role="banner">
+    <a class="navbar-brand" href="{% url 'Students:home' %}"><span class=" glyphicon glyphicon-info-sign"></span>Students</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" style="float: right;">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <div class="navbar-nav nav navbar-left" >
+            <a href="{% url 'linksgrab:links' %}" class="nav-item nav-link"><span class="glyphicon glyphicon-magnet"></span> Grabber </a></li>
+        </div>
+          <!-- <ul class="navbar-nav nav navbar-left"></ul> -->
+            <!-- <ul class="navbar-center navbar-nav nav small"></ul> -->
+            <!-- <ul class="nav navbar-nav navbar-right"> -->
+            <div class="navbar-nav" style="float: right;">
+              {% if user.is_authenticated %}
+              <div class="nav-item dropdown">
+                <a class="dropdown-toggle nav-link " role="button" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
+                  <b>{{user.username}}</b>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                  <li>
+                    <a class="dropdown-item glyphicon glyphicon-pencil" href="{% url 'accounts:user_detail' %}" style="color: gray;"> My Profile</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item glyphicon glyphicon-pencil" style="color: gray;" href="{% url 'Students:create' %}"> Add Student</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item glyphicon glyphicon-log-out" style="color: gray;" href="{% url 'accounts:logout' %}"> Logout</a>
+                  </li>
+                </ul>
+              </div>
+            {% else %}
+              <a href="{% url 'accounts:register' %}" class="nav-item nav-link"><span class="glyphicon glyphicon-user"></span> Register </a></li>
+              <a href="{% url 'accounts:login' %}" class="nav-item nav-link"><span class="glyphicon glyphicon-log-in"></span> Login </a></li>
+            {% endif %}
+             <form class="form-inline ml-auto" action="{% url 'Students:search' %}" method="get">
+                <input class="form-control mr-sm" type="text" name="q" id="search" value='{{request.GET.q}}' placeholder="enter name of student"/>
+                <button class="btn btn-primary btn-sm" type="submit">search</button>
+            </form>
+          </div>  
+        </div>
+  </nav>

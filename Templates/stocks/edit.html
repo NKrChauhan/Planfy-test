@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block title %}
+Update Roll no {{student.roll_no}}
+{% endblock %}
+{% block content %}
+<span >
+    <center ><h1 style="color: thistle;">Edit Roll: {{roll_no}}</h1></center>
+</span>
+<center>
+    <div class="container my-5" style="margin-top:50px;color: orange;">
+        <form method="POST" action="{% url 'Students:edit' roll=roll_no%}">
+            {% csrf_token %}
+            <table class="my-5">
+                {{form1.as_table}}
+                {{form2.as_table}}
+            </table>
+            <button type="submit" class="btn btn-success">EDIT</button>
+        </form>
+    </div>
+</center>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block title %}
+Student Detail
+{% endblock %}
+{% block content %}
+<span >
+    <center class="container"><h1 style="color: thistle;margin-top: 100px;"></h1></center>
+
+</span>
+<center>
+    <div class="container">
+    <div class="col-md-11 container card mx-3 ">
+                <div class="col-md-12 my-1">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <p>Roll no:</p>
+                                </td>
+                                <td>
+                                    <p>{{student.roll_no}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Name:</p>
+                                </td>
+                                <td>
+                                    <p>{{student.name}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Class:</p>
+                                </td>
+                                <td>
+                                    <p>{{student.cls}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Mobile:</p>
+                                </td>
+                                <td>
+                                    <p>{{student.mobile}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Address:</p>
+                                </td>
+                                <td>
+                                    <p>{{student.address}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Math:</p>
+                                </td>
+                                <td>
+                                    <p>{{student1.math}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>physics:</p>
+                                </td>
+                                <td>
+                                    <p>{{student1.physics}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>bio:</p>
+                                </td>
+                                <td>
+                                    <p>{{student1.bio}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>chemistry:</p>
+                                </td>
+                                <td>
+                                    <p>{{student1.chemistry}}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                {% if request.user.is_authenticated %}
+
+                    <a href="{% url 'Students:edit' roll=student.roll_no%}" class="btn btn-primary my-3">edit</a>
+                <div class="col-md-12">
+                    <form method="POST" action="{% url 'Students:delete' roll=student.roll_no %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">delete</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+    </div>
+</center>
+{% endblock %}

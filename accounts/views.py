@@ -1,13 +1,7 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect
 from .forms import UserLoginForm,UserRegisterForm
 from django.contrib.auth import login ,authenticate ,logout,get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.views.generic import DetailView,DeleteView ,UpdateView
-from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
 from django.core.exceptions import  ValidationError
 from django.utils.http import is_safe_url
   
@@ -52,42 +46,3 @@ def RegisterView(request):
 def LogoutView(request):
     logout(request)
     return redirect('/login')
-
-class UpdateUserView(LoginRequiredMixin,UpdateView):
-    model = User
-    fields=['username','email']
-    template_name='auth/user_update.html'
-    success_url=reverse_lazy('Students:home')
-    def get_object(self):
-        return get_object_or_404(User,username=self.request.user.username)
-
-class UserDetailView(DetailView,LoginRequiredMixin):
-    model=User
-    context_object_name='User'
-    template_name = "auth/user_detail.html"
-    def get_object(self):
-        return get_object_or_404(User,username=self.request.user.username)
-
-class DeleteUserView(DeleteView,LoginRequiredMixin):
-    model = User
-    success_url=reverse_lazy('Students:home')
-    template_name = 'auth/user_confirm_delete.html'
-    def get_object(self):
-        return get_object_or_404(User,username=self.request.user.username)
-
-@login_required
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('account:user_detail')
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'auth/change_password.html', {
-        'form': form
-    })

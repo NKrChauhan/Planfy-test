@@ -3,80 +3,49 @@
 {% block head %}
 {% endblock %}
 {% block title %}
-Students
+Stocks
 {% endblock %}
 {% block content %}
 <span>
-    <center ><h1 style="color: thistle;"></h1></center>
+    <center class="container"><h1 style="color: thistle;margin-top: 100px;"></h1></center>
 </span>
-<hr>
 <center>
-    <div class="container-fluid px-0 py-0 mx-0 my-0" style="width: 70vw;" >
-        <div class="row">
-        {% for student in students %}
-        <div class="col-md-5 container card mx-3 my-5">
-            <a href="{% url 'Students:detail' roll=student.roll_no %}">
-                <div class="col-md-6">
-                        <table>
-                            <tr>
-                                <td>
-                                    <p>Roll no:</p>
-                                </td>
-                                <td>
-                                    <p>{{student.roll_no}}</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>Name:</p>
-                                </td>
-                                <td>
-                                    <p>{{student.name}}</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>Class:</p>
-                                </td>
-                                <td>
-                                    <p>{{student.cls}}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+    <div class="jumbotron row">
+        <div class="jumbotron row">
+                {% for stock in stocks %}    
+
+                <div class="col-md-12 card mx-3 my-5">
+                    <a href="{% url 'stock:detail' slug=stock.slug %}">
                     <div class="col-md-6">
                         <table>
                             <tr>
                                 <td>
-                                    <p>Mobile:</p>
+                                    <p>Stock name:</p>
                                 </td>
                                 <td>
-                                    <p>{{student.mobile}}</p>
+                                    <p>{{stock.name}}</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Address:</p>
+                                    <p>Price:</p>
                                 </td>
                                 <td>
-                                    <p>{{student.address}}</p>
+                                    <p>{{stock.price}}</p>
                                 </td>
                             </tr>
                         </table>
+                        </div>
+                    </a>
                     </div>
-                </a>
-                {% if request.user.is_authenticated %}
-                <div class="col-md-12" style="left:50%;top:10%">
-                    <form method="POST" action="{% url 'Students:delete' roll=student.roll_no %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">delete</button>
-                    </form>
+                    {% endfor %}
                 </div>
-                {% endif %}
-            </div>
-            <hr/>
-            {% endfor %}
         </div>
     </div>
+<style>
+    .btn{
+        border-radius: 15px;
+    }
+</style>
 </center>
-    {% endblock %}
+{% endblock %}

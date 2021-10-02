@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block title %}
+Stocks
+{% endblock %}
+{% block content %}
+<span>
+    <center class="container"><h1 style="color: thistle;margin-top: 100px;"></h1></center>
+</span>
+<a class="btn btn-success" href="{% url 'stock:download_xls' %}">Download .xls</a>
+<center>
+    <table class="table jumbotron">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">User</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Query</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for q in queries %}
+          <tr>
+            <td scope="row">{{q.user}}</td>
+            <td>{{q.stock}}</td>
+            <td>{{q.query}}</td>
+          </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+      
+</center>
+{% endblock %}

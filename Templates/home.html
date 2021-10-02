@@ -3,13 +3,79 @@
 {% block head %}
 {% endblock %}
 {% block title %}
-Students
+Stocks
 {% endblock %}
 {% block content %}
 <span>
     <center class="container"><h1 style="color: thistle;margin-top: 100px;"></h1></center>
 </span>
 <center>
-    
+    <div class="jumbotron row">
+        <div class="col-md-6">
+            <center>
+                <p class="lead"> Welcome to Stocks app</p>
+            </center>
+        </div>
+        <div class="col-md-6">
+            <center>
+                {% if request.user.is_authenticated %}
+                <p class="lead mx-4"> you already logged in as : {{request.user}}</p>
+            </center>
+        </div>
+        <div class="jumbotron row">
+                {% for stock in stocks %}    
+
+                <div class="col-md-6 card mx-3 my-5">
+                    <a href="{% url 'stock:detail' slug=stock.slug %}">
+                    <div class="col-md-6">
+                        <table>
+                                <tr>
+                                    <td>
+                                        <p>Stock name:</p>
+                                    </td>
+                                    <td>
+                                        <p>{{stock.name}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>Price:</p>
+                                    </td>
+                                    <td>
+                                        <p>{{stock.price}}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </a>
+                    </div>
+                    <form class="form-inline ml-auto" action="{% url 'stock:stock_query' %}" method="POST">
+                        {% csrf_token %}
+                        <input hidden name="stock" value='{{stock.slug}}'/>                
+                        <input class="form-control mr-sm" type="text" name="query" id="query_stock{{stock.slug}}" value='' placeholder="enter query"/>                
+                        <button class="btn btn-primary btn-sm" type="submit">ASK</button>
+                        
+                    </form>
+                    {% endfor %}
+                    <center class="container ">
+                        <a class="btn btn-sm btn-primary" href="{% url 'stock:load_more' %}">LoadMore</a>
+                    </center>
+                </div>
+                {% else %}
+                <center>
+                    <a class="btn btn-lg btn-primary mx-4" href="{% url 'accounts:login' %}">Login</a>
+                    <a class="btn btn-lg btn-success" href="{% url 'accounts:register' %}">Sign up!</a>
+                </center>
+                <script>
+                    setTimeout(function() { alert("log In and track the list of all the Stocks ."); }, 3000);
+                </script>
+                {% endif %}
+        </div>
+    </div>
+<style>
+    .btn{
+        border-radius: 15px;
+    }
+</style>
 </center>
 {% endblock %}

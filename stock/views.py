@@ -5,8 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .models import Stock, Stock_Query
 from django.db.models import Q
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 # Create your views here.
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 def Home(request,*args,**kwargs):
     obj_all = []
@@ -27,11 +33,15 @@ def load_more(request,limit,*args,**kwargs):
 @login_required
 def search(request):
     query=request.GET.get('q',None)
-    qs=Stock.objects.none()
-    if query is not None:
-        lookup=Q(name__icontains=query)
-        qs=Stock.objects.filter(lookup).distinct()
-    print(qs)
+    if cache.get(query):
+        qs = cache.get(query)
+        print("-----------------cache is working--------------------")
+    else:
+        qs=Stock.objects.none()
+        if query is not None:
+            lookup=Q(name__icontains=query)
+            qs=Stock.objects.filter(lookup).distinct()
+            cache.set(query,qs)
     return render(request=request,template_name='stocks/search.html',context={'stocks':qs})
 
 @login_required

@@ -45,8 +45,13 @@ def search(request):
     return render(request=request,template_name='stocks/search.html',context={'stocks':qs})
 
 @login_required
-def detail(request,slug,*args, **kwargs):   
-    object = Stock.objects.get(slug=slug)
+def detail(request,slug,*args, **kwargs):  
+    if cache.get(slug):
+        object = cache.get(slug)
+        print("-----------------cache is working--------------------")
+    else: 
+        object = Stock.objects.get(slug=slug)
+        cache.set(slug,object)
     data = {
         'stock': "not found",
     }

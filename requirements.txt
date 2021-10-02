@@ -1,39 +1,6 @@
-
-Perform the Sign-Up and Sign In Operations on the Home Page of you r Stock
-Market.
-A1:
-make a saperate app to do all the functionality of signup and signin and all the user related crud operations.
-
-Only Logged In Users, can able to see the list of the Stock Names (Listing
-Page}. For Non Logged in Users, a pop-up should come after every 3 mins in
-order to remind them to log In and track the list of all the Stocks .
-A2:
-Logged in user will get the page response with list of the stocks and query that they want to perform.
-
-The User con click in front of any Stock Nome and Submit a Form Ouery for
-the same.
-NOTE:
-Doto of the form save in the Django Database and can be download through
-excel either using the Admin Panel of Django or through UI.
-A3:
-there is a form that will send the query and using the input fields the info about which stocks and after wards i just need to make a function that get all the entries in query table and can print using the python library using pandas.
-
-Do not use Pagination on the Stock Listing Page, Instead show 5
-entries only. However, After S entries give a 'Load More' Button that
-will further display the next 5 entries on the some page till the Stocklist
-ends.
-A4:
-this can be achieved using session variable as batch_size that keep track of the session variable and then it will update as we click on load more and the query set will be parsed to page.
-
-Perform the Search Operation in Django that will pull the records
-using names of Listed Stock names.
-A5:
-get request to the server that will take the search query q and we do a Q lookup to the variable 
-
-A Detailed Page of the Stock should also open containing a Video,
-Title, Description of the portiicular Stock using Slug .
-A6:
-didn't implemented video in models of stocks but slug is saved in the model which helps in filtering the object to 1 and display it on the screen.
-
-Create a file 'requirements.txt' and summarize all steps or sections that
-you performed in a maximum of 500 words.
+asgiref==3.4.1
+Django==3.2.7
+gunicorn==20.1.0
+pytz==2021.1
+sqlparse==0.4.2
+xlwt==1.3.0

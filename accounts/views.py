@@ -20,10 +20,6 @@ def LoginView(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            try:
-                del request.session['guest_user_id'] #if user try to login after checkout
-            except:
-                pass
             if is_safe_url(redirect_urls,request.get_host()):
                 return redirect(redirect_urls)
             else:

@@ -1,4 +1,5 @@
-from django.http.response import HttpResponse
+import json
+from django.http.response import HttpResponse, JsonResponse
 import xlwt
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -9,19 +10,19 @@ from django.db.models import Q
 
 def Home(request,*args,**kwargs):
     obj_all = []
-    load_more(request=request)
-    bs = request.session['batch_size']
-    if request.user.is_authenticated:
-        obj_all = Stock.objects.all()[:bs]
+    objs = Stock.objects.all()
+    u_limit = 3
+    l_limit = 0
+    obj_all = objs[l_limit:u_limit]
     return render(request=request,template_name='home.html',context={'stocks':obj_all})
 
 @login_required
-def load_more(request,*args,**kwargs):
-    if request.session.get('batch_size') is not None:
-        request.session['batch_size']+=5
-    else:
-        request.session['batch_size']=5
-    return redirect('stock:home')
+def load_more(request,limit,*args,**kwargs):
+    objs = list(Stock.objects.values())
+    obj_all = objs[limit-3:limit]
+    max_size_reached = True if len(objs) <= limit else False
+    return JsonResponse({"data":obj_all,"max_reached":max_size_reached})
+
 
 @login_required
 def search(request):

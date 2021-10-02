@@ -4,7 +4,7 @@ app_name = 'stock'
 
 urlpatterns = [
     path('',Home, name='home'),
-    path('',load_more, name='load_more'),
+    path('load_more/<int:limit>/',load_more, name='load_more'),
     path('download/',download_xls, name='download_xls'),
     path('queries/',all_query, name='all_query'),
     path('query/',stock_query, name='stock_query'),

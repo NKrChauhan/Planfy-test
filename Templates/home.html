@@ -22,7 +22,7 @@ Stocks
                 <p class="lead mx-4"> you already logged in as : {{request.user}}</p>
             </center>
         </div>
-        <div class="jumbotron row">
+        <div class="jumbotron row" id="content-stocks">
                 {% for stock in stocks %}    
 
                 <div class="col-md-6 card mx-3 my-5">
@@ -57,9 +57,43 @@ Stocks
                         
                     </form>
                     {% endfor %}
-                    <center class="container ">
-                        <a class="btn btn-sm btn-primary" href="{% url 'stock:load_more' %}">LoadMore</a>
+                    <center class="container" id="btn-loadmore">
+                        <button class="btn btn-sm btn-primary" onclick="loadMore();">LoadMore</button>
                     </center>
+                    <script>
+                        var content = document.getElementById("content-stocks");
+                        var loadmorebtn = document.getElementById("btn-loadmore");
+                        let visible = 6
+                        const loadMore = ()=> {
+                            $.ajax({
+                                type:'GET',
+                                url:'/load_more/'+visible+'/',
+                                success: function(res){
+                                    var response = res.data;
+                                    var elements = "";
+                                    setTimeout(function() { 
+                                        response.forEach(element => {
+                                            content.innerHTML+=`<div class='col-md-6 card mx-3 my-5'><a href='/detail/${element.slug}/'><div class='col-md-6'><table><tr><td><p>Stock name:</p><td><p>
+                                                    ${element.name}
+                                                </p></td></tr><tr><td><p>Price:</p></td><td><p>${element.price}</p>
+                                                    </td></tr></table></div></a></div><form class='form-inline ml-auto' action='/query/' method='POST'>{% csrf_token%}
+                                                        <input hidden name='stock' value='${element.slug}'/><input class='form-control mr-sm' type='text' name='query' id='query_stock_${element.slug}
+                                                        ' value='' placeholder='enter query'/><button class='btn btn-primary btn-sm' type='submit'>ASK</button></form>`;
+                                        });
+                                    }, 1000);
+                                    if (res.max_reached == true){
+                                        loadmorebtn.style.display = "none"
+                                    }else{
+                                        visible+=3
+                                    }
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            })
+                            
+                        }
+                    </script>
                 </div>
                 {% else %}
                 <center>
@@ -67,7 +101,7 @@ Stocks
                     <a class="btn btn-lg btn-success" href="{% url 'accounts:register' %}">Sign up!</a>
                 </center>
                 <script>
-                    setTimeout(function() { alert("log In and track the list of all the Stocks ."); }, 3000);
+                    setInterval(function() { alert("log In and track the list of all the Stocks ."); }, 3000);
                 </script>
                 {% endif %}
         </div>
